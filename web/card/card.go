@@ -6,8 +6,11 @@ import (
 )
 
 type Content struct {
-	Image web.URL
-	Body  string
+	ImageSrc   web.URL
+	ImageAlt   string
+	Title      string
+	Text       string
+	ButtonText string
 }
 
 // Card Component
@@ -21,7 +24,7 @@ var _ web.IWeb = (*Card)(nil)
 
 func NewCo(c Content) *Card {
 	return &Card{
-		TemplateName: "layout.gohtml",
+		TemplateName: "card.gohtml",
 
 		Content: c,
 	}

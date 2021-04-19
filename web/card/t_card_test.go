@@ -1,4 +1,4 @@
-layoutpackage layout
+package card
 
 import (
 	"fmt"
@@ -10,12 +10,15 @@ import (
 
 const token = "xxx"
 
-func TestLayout(t *testing.T) {
+func TestCard(t *testing.T) {
 	tmpl := template.New("views")
 
 	c := NewCo(Content{
-		Title: token,
-		Body:  "lorem",
+		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
+		ImageAlt:   token,
+		Title:      "Card Title",
+		Text:       "Lorem",
+		ButtonText: "Read More",
 	})
 
 	tmpl, err := tmpl.ParseFiles("../../templates/" + c.TemplateName)

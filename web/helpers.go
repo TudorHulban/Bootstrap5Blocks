@@ -14,8 +14,7 @@ func Render(t *template.Template, compoTemplateName string, component IWeb) (str
 
 	var buf bytes.Buffer
 
-	err := tmpl.ExecuteTemplate(&buf, compoTemplateName, component)
-	if err != nil {
+	if err := tmpl.ExecuteTemplate(&buf, compoTemplateName, component); err != nil {
 		return "", err
 	}
 

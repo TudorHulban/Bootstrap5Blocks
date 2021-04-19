@@ -46,7 +46,7 @@ func (c *Layout) Inject(t *template.Template, blocks ...web.IWeb) error {
 	return nil
 }
 
-// Markdown Method produces accumulated markdown for body component.
+// Markdown Method produces accumulated markdown for component.
 func (c *Layout) GetMarkdown() string {
 	return strings.Join(c.Body, "")
 }

@@ -2,14 +2,16 @@ package web
 
 import (
 	"bytes"
-	"errors"
+
 	"text/template"
+
+	"github.com/pkg/errors"
 )
 
 func Render(t *template.Template, compoTemplateName string, component IWeb) (string, error) {
 	tmpl := t.Lookup(compoTemplateName)
 	if tmpl == nil {
-		return "", errors.New("lookup did not work")
+		return "", errors.Errorf("lookup over %v templates did not work", len(t.Templates()))
 	}
 
 	var buf bytes.Buffer

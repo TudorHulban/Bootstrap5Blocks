@@ -11,32 +11,33 @@ import (
 
 // Container Fluid Component
 type Container struct {
-	templateName string
+	TemplateName string
 
-	Markdown []string
+	Markdown string
+	Content  []string
 }
 
 var _ webcontainers.IWebContainer = (*Container)(nil)
 
 func NewCo() *Container {
 	return &Container{
-		templateName: "container.gohtml",
+		TemplateName: "container_fluid.gohtml",
 	}
 }
 
-func (c *Container) SetMarkdown(markdown []string) {
-	c.Markdown = markdown
+func (c *Container) SetContent(content []string) {
+	c.Content = content
 }
 
 func (c *Container) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.templateName)
+	tmpl := t.Lookup(c.TemplateName)
 	if tmpl == nil {
 		return "", errors.New("lookup did not work")
 	}
 
 	var buf bytes.Buffer
 
-	err := tmpl.ExecuteTemplate(&buf, c.templateName, c)
+	err := tmpl.ExecuteTemplate(&buf, c.TemplateName, c)
 	if err != nil {
 		return "", err
 	}
@@ -51,13 +52,14 @@ func (c *Container) Inject(t *template.Template, blocks ...web.IWeb) error {
 			return err
 		}
 
-		c.Markdown = append(c.Markdown, markdown)
+		c.Content = append(c.Content, markdown)
 	}
 
+	c.SetMarkdown()
 	return nil
 }
 
 // Markdown Method produces accumulated markdown for component.
-func (c *Container) GetMarkdown() string {
-	return strings.Join(c.Markdown, "")
+func (c *Container) SetMarkdown() {
+	c.Markdown = strings.Join(c.Content, "")
 }

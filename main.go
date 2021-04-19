@@ -6,6 +6,7 @@ import (
 	"os"
 	"text/template"
 
+	"blocks/web/card"
 	"blocks/web/layout"
 )
 
@@ -29,8 +30,18 @@ func main() {
 
 	l := layout.NewCo(layout.Content{
 		Title: "This is title",
-		Body:  "lorem",
 	})
+
+	c := card.NewCo(card.Content{
+		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
+		ImageAlt:   "Image Missing",
+		Title:      "Card Title",
+		Text:       "Lorem",
+		ButtonText: "Read More",
+	})
+
+	l.Inject(tmpl, c)
+	l.Markdown = l.GetMarkdown()
 
 	errExe := tmpl.ExecuteTemplate(f, l.TemplateName, l)
 	if errExe != nil {

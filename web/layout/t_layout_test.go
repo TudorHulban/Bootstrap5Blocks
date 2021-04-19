@@ -1,4 +1,4 @@
-layoutpackage layout
+package layout
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ func TestLayout(t *testing.T) {
 
 	c := NewCo(Content{
 		Title: token,
-		Body:  "lorem",
+		Body:  []string{"lorem"},
 	})
 
 	tmpl, err := tmpl.ParseFiles("../../templates/" + c.TemplateName)

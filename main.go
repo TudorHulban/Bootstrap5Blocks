@@ -34,21 +34,21 @@ func main() {
 		Title: "This is title",
 	})
 
-	c := card.NewCo(card.Content{
-		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
-		ImageAlt:   "Image Missing",
-		Title:      "Card Title",
-		Text:       "Lorem",
-		ButtonText: "Read More",
-	})
+	// c := card.NewCo(card.Content{
+	// 	ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
+	// 	ImageAlt:   "Image Missing",
+	// 	Title:      "Card Title",
+	// 	Text:       "Lorem",
+	// 	ButtonText: "Read More",
+	// })
 
 	author := blogauthor.NewCo(blogauthor.Content{
-		AvatarSrc: "https://bulma.io/images/placeholders/32x32.png",
+		AvatarSrc: "https://bulma.io/images/placeholders/64x64.png",
 		FullName:  "John Smith",
 		Text:      "Lorem ...",
 	})
 
-	l.Inject(tmpl, c, author)
+	l.Inject(tmpl, author)
 
 	c1 := card.NewCo(card.Content{
 		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",

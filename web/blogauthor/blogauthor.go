@@ -7,6 +7,7 @@ import (
 
 type Content struct {
 	AvatarSrc web.URL
+	AvatarAlt string
 	FullName  string
 	Text      string
 }

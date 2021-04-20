@@ -8,6 +8,7 @@ import (
 
 	"blocks/web/card"
 	"blocks/web/layout"
+	"blocks/webcontainers/row"
 )
 
 //go:embed templates/*.gohtml
@@ -41,11 +42,46 @@ func main() {
 	})
 
 	l.Inject(tmpl, c)
+
+	c1 := card.NewCo(card.Content{
+		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
+		ImageAlt:   "",
+		Title:      "Card 1 Title",
+		Text:       "Lorem",
+		ButtonText: "Read More",
+	})
+
+	c2 := card.NewCo(card.Content{
+		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
+		ImageAlt:   "",
+		Title:      "Card 2 Title",
+		Text:       "Lorem",
+		ButtonText: "Read More",
+	})
+
+	c3 := card.NewCo(card.Content{
+		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
+		ImageAlt:   "",
+		Title:      "Card 3 Title",
+		Text:       "Lorem",
+		ButtonText: "Read More",
+	})
+
+	r := row.NewCo()
+	r.Inject(tmpl, c1, c2, c3)
+
+	markdown, errRen := r.Render(tmpl)
+	if errRen != nil {
+		fmt.Println(errRen)
+		os.Exit(3)
+	}
+
+	l.AppendToBody(markdown)
 	l.Markdown = l.GetMarkdown()
 
 	errExe := tmpl.ExecuteTemplate(f, l.TemplateName, l)
 	if errExe != nil {
 		fmt.Println(errExe)
-		os.Exit(3)
+		os.Exit(4)
 	}
 }

@@ -29,10 +29,13 @@ func NewCo(c Content) *Layout {
 	}
 }
 
+// Render Method to be used for rendering once the body is set.
 func (c *Layout) Render(t *template.Template) (string, error) {
 	return web.Render(t, c.TemplateName, c)
 }
 
+// Inject Method to be used to directly inject components as body.
+// Sometimes a container could be used first
 func (c *Layout) Inject(t *template.Template, blocks ...web.IWeb) error {
 	for _, block := range blocks {
 		markdown, err := block.Render(t)
@@ -49,4 +52,10 @@ func (c *Layout) Inject(t *template.Template, blocks ...web.IWeb) error {
 // Markdown Method produces accumulated markdown for component.
 func (c *Layout) GetMarkdown() string {
 	return strings.Join(c.Body, "")
+}
+
+// SetBody Method should be used when we just want to render the passed body.
+// Ex. when we already placed the markdown in a container.
+func (c *Layout) SetBody(b []string) {
+	c.Body = b
 }

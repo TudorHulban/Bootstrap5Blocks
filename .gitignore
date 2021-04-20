@@ -17,5 +17,8 @@
 # go.sum
 go.sum
 
+# generated code
+output.html
+
 # Dependency directories (remove the comment below to include it)
 # vendor/

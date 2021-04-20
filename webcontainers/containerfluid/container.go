@@ -4,9 +4,10 @@ import (
 	"blocks/web"
 	"blocks/webcontainers"
 	"bytes"
-	"errors"
 	"strings"
 	"text/template"
+
+	"github.com/pkg/errors"
 )
 
 // Container Fluid Component
@@ -25,10 +26,12 @@ func NewCo() *Container {
 	}
 }
 
+// SetContent Method to be used for injecting markdown (ex. from already rendered templates)
 func (c *Container) SetContent(content []string) {
 	c.Content = content
 }
 
+// Render Method should be used after markdown is set.
 func (c *Container) Render(t *template.Template) (string, error) {
 	tmpl := t.Lookup(c.TemplateName)
 	if tmpl == nil {
@@ -45,11 +48,12 @@ func (c *Container) Render(t *template.Template) (string, error) {
 	return buf.String(), nil
 }
 
+// Inject Method takes several components which it renders and decorates.
 func (c *Container) Inject(t *template.Template, blocks ...web.IWeb) error {
-	for _, block := range blocks {
+	for i, block := range blocks {
 		markdown, err := block.Render(t)
 		if err != nil {
-			return err
+			return errors.WithMessagef(err, "at injection of component number %v", i)
 		}
 
 		c.Content = append(c.Content, markdown)

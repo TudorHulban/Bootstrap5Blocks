@@ -6,6 +6,7 @@ import (
 	"os"
 	"text/template"
 
+	"blocks/web/blogauthor"
 	"blocks/web/card"
 	"blocks/web/layout"
 	"blocks/webcontainers/row"
@@ -41,7 +42,13 @@ func main() {
 		ButtonText: "Read More",
 	})
 
-	l.Inject(tmpl, c)
+	author := blogauthor.NewCo(blogauthor.Content{
+		AvatarSrc: "https://bulma.io/images/placeholders/32x32.png",
+		FullName:  "John Smith",
+		Text:      "Lorem ...",
+	})
+
+	l.Inject(tmpl, c, author)
 
 	c1 := card.NewCo(card.Content{
 		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",

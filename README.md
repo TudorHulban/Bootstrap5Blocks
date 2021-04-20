@@ -1,5 +1,9 @@
 # Bootstrap 5 Blocks
-Bootstrap 5 Blocks
+Bootstrap 5 Blocks. <br/>
+
+Each block starts with an empty line that would allow space for the ending block comment.
+
+
 
 ## Layout
 From starter template:

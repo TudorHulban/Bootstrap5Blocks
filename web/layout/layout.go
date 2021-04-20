@@ -59,3 +59,7 @@ func (c *Layout) GetMarkdown() string {
 func (c *Layout) SetBody(b []string) {
 	c.Body = b
 }
+
+func (c *Layout) AppendToBody(markdown string) {
+	c.Body = append(c.Body, markdown)
+}

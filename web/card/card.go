@@ -11,6 +11,7 @@ type Content struct {
 	Title      string
 	Text       string
 	ButtonText string
+	ButtonURL  web.URL
 }
 
 // Card Component

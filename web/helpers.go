@@ -20,5 +20,5 @@ func Render(t *template.Template, compoTemplateName string, component IWeb) (str
 		return "", err
 	}
 
-	return buf.String(), nil
+	return "\n" + buf.String() + "\n", nil
 }

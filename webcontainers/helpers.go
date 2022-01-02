@@ -2,9 +2,10 @@ package webcontainers
 
 import (
 	"blocks/web"
+	"io"
 	"text/template"
 )
 
-func Render(t *template.Template, compoTemplateName string, component web.IWeb) (string, error) {
-	return web.Render(t, compoTemplateName, component)
+func Render(t *template.Template, c web.IWeb, w io.Writer) (int, error) {
+	return web.Render(t, c, w)
 }

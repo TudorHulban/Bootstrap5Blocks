@@ -2,6 +2,7 @@ package card
 
 import (
 	"blocks/web"
+	"io"
 	"text/template"
 )
 
@@ -31,6 +32,10 @@ func NewCo(c Content) *Card {
 	}
 }
 
-func (c *Card) Render(t *template.Template) (string, error) {
-	return web.Render(t, c.TemplateName, c)
+func (c *Card) Render(t *template.Template, w io.Writer) (int, error) {
+	return web.Render(t, c, w)
+}
+
+func (c Card) GetTemplateName() string {
+	return c.TemplateName
 }

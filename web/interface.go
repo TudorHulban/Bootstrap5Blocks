@@ -1,10 +1,12 @@
 package web
 
 import (
+	"io"
 	"text/template"
 )
 
 // IWeb Groups web components using simple method.
 type IWeb interface {
-	Render(t *template.Template) (string, error)
+	GetTemplateName() string
+	Render(t *template.Template, w io.Writer) (int, error)
 }

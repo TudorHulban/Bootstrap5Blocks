@@ -1,13 +1,12 @@
 package row
 
 import (
-	"fmt"
+	"os"
 	"testing"
 	"text/template"
 
 	"blocks/web/card"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -39,11 +38,8 @@ func TestContainer(t *testing.T) {
 	require.Nil(t, errParse)
 
 	err := c.Inject(tmpl, c1, c2)
-	require.Nil(t, err, "Injecting did not work")
+	require.NoError(t, err, "Injecting did not work")
 
-	s, errRender := c.Render(tmpl)
-	require.Nil(t, errRender, "Did not render correctly.")
-	assert.Contains(t, s, token, "Does not contain token.")
-
-	fmt.Println(s)
+	_, errRender := c.Render(tmpl, os.Stdout)
+	require.NoError(t, errRender, "Did not render correctly.")
 }

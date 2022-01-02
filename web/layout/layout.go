@@ -2,20 +2,20 @@ package layout
 
 import (
 	"blocks/web"
+	"io"
 	"strings"
 	"text/template"
 )
 
 type Content struct {
-	Title    string
-	Body     []string
-	Markdown string
+	Title string
+	Body  []string
 }
 
 // Layout Component
 type Layout struct {
 	TemplateName string
-
+	Markdown     string
 	Content
 }
 
@@ -30,27 +30,27 @@ func NewCo(c Content) *Layout {
 }
 
 // Render Method to be used for rendering once the body is set.
-func (c *Layout) Render(t *template.Template) (string, error) {
-	return web.Render(t, c.TemplateName, c)
+func (c *Layout) Render(t *template.Template, w io.Writer) (int, error) {
+	return web.Render(t, c, w)
 }
 
-// Inject Method to be used to directly inject components as body.
-// Sometimes a container could be used first
-func (c *Layout) Inject(t *template.Template, blocks ...web.IWeb) error {
-	for _, block := range blocks {
-		markdown, err := block.Render(t)
-		if err != nil {
-			return err
-		}
+// // Inject Method to be used to directly inject components as body.
+// // Sometimes a container could be used first
+// func (c *Layout) Inject(t *template.Template, blocks ...web.IWeb) error {
+// 	for _, block := range blocks {
+// 		markdown, err := block.Render(t)
+// 		if err != nil {
+// 			return err
+// 		}
 
-		c.Body = append(c.Body, markdown)
-	}
+// 		c.Body = append(c.Body, markdown)
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 // Markdown Method produces accumulated markdown for component.
-func (c *Layout) GetMarkdown() string {
+func (c *Layout) HTML() string {
 	return strings.Join(c.Body, "")
 }
 
@@ -60,6 +60,12 @@ func (c *Layout) SetBody(b []string) {
 	c.Body = b
 }
 
-func (c *Layout) AppendToBody(markdown string) {
-	c.Body = append(c.Body, markdown)
+func (c *Layout) Write(markdown []byte) (int, error) {
+	c.Body = append(c.Body, string(markdown))
+
+	return len(c.Body), nil
+}
+
+func (c Layout) GetTemplateName() string {
+	return c.TemplateName
 }

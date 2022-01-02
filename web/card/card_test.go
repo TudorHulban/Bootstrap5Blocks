@@ -1,7 +1,7 @@
 package card
 
 import (
-	"fmt"
+	"os"
 	"testing"
 	"text/template"
 
@@ -22,11 +22,8 @@ func TestCard(t *testing.T) {
 	})
 
 	tmpl, err := tmpl.ParseFiles("../../templates/" + c.TemplateName)
-	require.Nil(t, err)
+	require.NoError(t, err)
 
-	s, errRender := c.Render(tmpl)
-	require.Nil(t, errRender, "Did not render correctly.")
-	require.Contains(t, s, token, "Does not contain token.")
-
-	fmt.Println(s)
+	_, errRender := c.Render(tmpl, os.Stdout)
+	require.NoError(t, errRender, "Did not render correctly.")
 }

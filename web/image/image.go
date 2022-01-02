@@ -2,6 +2,7 @@ package image
 
 import (
 	"blocks/web"
+	"io"
 	"strings"
 	"text/template"
 )
@@ -40,14 +41,19 @@ func NewImageThumbnail(c Content) *Image {
 	}
 }
 
-func (c *Image) Render(t *template.Template) (string, error) {
+// Render Method should be used after markdown is set.
+func (c *Image) Render(t *template.Template, w io.Writer) (int, error) {
 	c.prepareCSS()
 
-	return web.Render(t, c.TemplateName, c)
+	return web.Render(t, c, w)
 }
 
 func (c *Image) prepareCSS() {
 	c.AdditionalCSSClasses = append(c.AdditionalCSSClasses, c.CSSClass)
 
 	c.CSSClass = strings.Join(c.AdditionalCSSClasses, " ")
+}
+
+func (c Image) GetTemplateName() string {
+	return c.TemplateName
 }

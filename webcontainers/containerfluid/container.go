@@ -3,11 +3,9 @@ package container
 import (
 	"blocks/web"
 	"blocks/webcontainers"
-	"bytes"
+	"io"
 	"strings"
 	"text/template"
-
-	"github.com/pkg/errors"
 )
 
 // Container Fluid Component
@@ -32,38 +30,21 @@ func (c *Container) SetContent(content []string) {
 }
 
 // Render Method should be used after markdown is set.
-func (c *Container) Render(t *template.Template) (string, error) {
-	tmpl := t.Lookup(c.TemplateName)
-	if tmpl == nil {
-		return "", errors.New("lookup did not work")
-	}
-
-	var buf bytes.Buffer
-
-	err := tmpl.ExecuteTemplate(&buf, c.TemplateName, c)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
-}
-
-// Inject Method takes several components which it renders and decorates.
-func (c *Container) Inject(t *template.Template, blocks ...web.IWeb) error {
-	for i, block := range blocks {
-		markdown, err := block.Render(t)
-		if err != nil {
-			return errors.WithMessagef(err, "at injection of component number %v", i)
-		}
-
-		c.Content = append(c.Content, markdown)
-	}
-
-	c.SetMarkdown()
-	return nil
+func (c *Container) Render(t *template.Template, w io.Writer) (int, error) {
+	return web.Render(t, c, w)
 }
 
 // Markdown Method produces accumulated markdown for component.
 func (c *Container) SetMarkdown() {
 	c.Markdown = strings.Join(c.Content, "")
+}
+
+func (c Container) GetTemplateName() string {
+	return c.TemplateName
+}
+
+func (c Container) Write(markdown []byte) (int, error) {
+	c.Content = append(c.Content, string(markdown))
+
+	return len(c.Content), nil
 }

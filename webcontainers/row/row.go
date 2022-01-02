@@ -34,20 +34,11 @@ func (c *Row) Render(t *template.Template, w io.Writer) (int, error) {
 	return web.Render(t, c, w)
 }
 
-// Inject Method takes several components which it renders and decorates.
-// func (c *Row) Inject(t *template.Template, blocks ...web.IWeb) error {
-// 	for i, block := range blocks {
-// 		markdown, err := block.Render(t)
-// 		if err != nil {
-// 			return errors.WithMessagef(err, "at injection of component number %v", i)
-// 		}
+func (c *Row) Write(markdown []byte) (int, error) {
+	c.Content = append(c.Content, string(markdown))
 
-// 		c.Content = append(c.Content, markdown)
-// 	}
-
-// 	c.SetMarkdown()
-// 	return nil
-// }
+	return len(c.Content), nil
+}
 
 // Markdown Method produces accumulated markdown for component.
 func (c *Row) SetMarkdown() {

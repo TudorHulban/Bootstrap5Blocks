@@ -34,21 +34,6 @@ func (c *Layout) Render(t *template.Template, w io.Writer) (int, error) {
 	return web.Render(t, c, w)
 }
 
-// // Inject Method to be used to directly inject components as body.
-// // Sometimes a container could be used first
-// func (c *Layout) Inject(t *template.Template, blocks ...web.IWeb) error {
-// 	for _, block := range blocks {
-// 		markdown, err := block.Render(t)
-// 		if err != nil {
-// 			return err
-// 		}
-
-// 		c.Body = append(c.Body, markdown)
-// 	}
-
-// 	return nil
-// }
-
 // Markdown Method produces accumulated markdown for component.
 func (c *Layout) HTML() string {
 	return strings.Join(c.Body, "")

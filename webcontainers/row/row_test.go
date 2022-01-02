@@ -15,7 +15,7 @@ const token = "xxx"
 func TestContainer(t *testing.T) {
 	tmpl := template.New("views")
 
-	c := NewCo()
+	row := NewCo()
 
 	c1 := card.NewCo(card.Content{
 		ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",
@@ -34,12 +34,12 @@ func TestContainer(t *testing.T) {
 	})
 
 	// the adition of the files is done automatically when embedding
-	tmpl, errParse := tmpl.ParseFiles("../../templates/"+c.TemplateName, "../../templates/"+c1.TemplateName)
-	require.Nil(t, errParse)
+	tmpl, errParse := tmpl.ParseFiles("../../templates/"+row.TemplateName, "../../templates/"+c1.TemplateName)
+	require.NoError(t, errParse)
 
-	err := c.Inject(tmpl, c1, c2)
-	require.NoError(t, err, "Injecting did not work")
+	c1.Render(tmpl, row)
+	c2.Render(tmpl, row)
 
-	_, errRender := c.Render(tmpl, os.Stdout)
+	_, errRender := row.Render(tmpl, os.Stdout)
 	require.NoError(t, errRender, "Did not render correctly.")
 }

@@ -1,7 +1,7 @@
 package layout
 
 import (
-	"fmt"
+	"os"
 	"testing"
 	"text/template"
 
@@ -13,17 +13,13 @@ const token = "xxx"
 func TestLayout(t *testing.T) {
 	tmpl := template.New("views")
 
-	c := NewCo(Content{
+	layout := NewCo(Content{
 		Title: token,
 		Body:  []string{"lorem"},
 	})
 
-	tmpl, err := tmpl.ParseFiles("../../templates/" + c.TemplateName)
-	require.Nil(t, err)
+	tmpl, err := tmpl.ParseFiles("../../templates/" + layout.TemplateName)
+	require.NoError(t, err)
 
-	s, errRender := c.Render(tmpl)
-	require.Nil(t, errRender, "Did not render correctly.")
-	require.Contains(t, s, token, "Does not contain token.")
-
-	fmt.Println(s)
+	layout.Render(tmpl, os.Stdout)
 }

@@ -6,6 +6,7 @@ import (
 	"os"
 	"text/template"
 
+	"blocks/web/blogauthor"
 	"blocks/web/layout"
 	"blocks/webcontainers/row"
 )
@@ -26,13 +27,11 @@ func main() {
 		Title: "This is title",
 	})
 
-	// author := blogauthor.NewCo(blogauthor.Content{
-	// 	AvatarSrc: "https://bulma.io/images/placeholders/64x64.png",
-	// 	FullName:  "John Smith",
-	// 	Text:      "Lorem ...",
-	// })
-
-	// l.Inject(tmpl, author)
+	blogauthor.NewCo(blogauthor.Content{
+		AvatarSrc: "https://bulma.io/images/placeholders/64x64.png",
+		FullName:  "John Smith",
+		Text:      "Lorem ...",
+	}).Render(tmpl, l)
 
 	// c1 := card.NewCo(card.Content{
 	// 	ImageSrc:   "https://bulma.io/images/placeholders/128x128.png",

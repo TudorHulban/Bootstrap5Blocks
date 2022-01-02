@@ -2,6 +2,7 @@ package blogauthor
 
 import (
 	"blocks/web"
+	"io"
 	"text/template"
 )
 
@@ -29,6 +30,10 @@ func NewCo(c Content) *BlogAuthor {
 	}
 }
 
-func (c *BlogAuthor) Render(t *template.Template) (string, error) {
-	return web.Render(t, c.TemplateName, c)
+func (c *BlogAuthor) Render(t *template.Template, w io.Writer) (int, error) {
+	return web.Render(t, c, w)
+}
+
+func (c BlogAuthor) GetTemplateName() string {
+	return c.TemplateName
 }

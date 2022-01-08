@@ -8,6 +8,7 @@ import (
 
 	"blocks/web/blogauthor"
 	"blocks/web/card"
+	"blocks/web/event"
 	"blocks/web/layout"
 	"blocks/webcontainers/row"
 )
@@ -61,7 +62,20 @@ func main() {
 
 	row.Render(tmpl, layout)
 
-	layout.Markdown = layout.HTML()
+	event1 := event.Event{
+		ID:    "Event1",
+		Title: "Title for Event 1",
+		Text:  "This is text for Event 1",
+	}
+
+	event2 := event.Event{
+		ID:    "Event2",
+		Title: "Title for Event 2",
+		Text:  "This is text for Event 2",
+	}
+
+	events := event.NewCo(event1, event2)
+	events.Render(tmpl, layout)
 
 	f, errCreate := os.Create("output.html")
 	if errCreate != nil {

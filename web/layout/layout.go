@@ -31,6 +31,8 @@ func NewCo(c Content) *Layout {
 
 // Render Method to be used for rendering once the body is set.
 func (c *Layout) Render(t *template.Template, w io.Writer) (int, error) {
+	c.Markdown = c.HTML()
+
 	return web.Render(t, c, w)
 }
 
